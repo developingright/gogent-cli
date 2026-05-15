@@ -10,18 +10,15 @@ import (
 // list of default files/directories that the scan function will ignore
 // used hashmap for O(1) look up
 
-var ignored = map[string]bool{
-	".git":         true,
-	".gocache":     true,
-	"node_modules": true,
-	"dist":         true,
-	"build":        true,
-	"vendor":       true,
-}
-
 func scan() {
 	fmt.Println(".")
-	Directory := scanDirectory(".", 2)
+	var ignored, parserErr = parseGitignore(".gitignore")
+
+	if parserErr != nil {
+		return
+	}
+
+	Directory := scanDirectory(".", 2, ignored)
 
 	//prints sub directories and files
 	for _, line := range Directory {
@@ -30,7 +27,7 @@ func scan() {
 }
 
 // A DFS function to print all the directories and files present recursively
-func scanDirectory(path string, indent int) []string {
+func scanDirectory(path string, indent int, ignored []string) []string {
 	entries, err := os.ReadDir(path)
 
 	//If we encounter an error while reading the file directory we simply print that error
@@ -46,7 +43,15 @@ func scanDirectory(path string, indent int) []string {
 	for _, entry := range entries {
 
 		//we skip the directories or files present in the ignored map
-		if ignored[entry.Name()] {
+		flag := false
+		for _, ignore := range ignored {
+			matched, _ := filepath.Match(ignore, entry.Name())
+			if matched {
+				flag = true
+				break
+			}
+		}
+		if flag {
 			continue
 		}
 
@@ -58,7 +63,7 @@ func scanDirectory(path string, indent int) []string {
 		//recursively calls helper again to print the children elements
 		if entry.IsDir() {
 			joinedPath := filepath.Join(path, entry.Name())
-			childLines := scanDirectory(joinedPath, indent+2)
+			childLines := scanDirectory(joinedPath, indent+2, ignored)
 			lines = append(lines, childLines...)
 		}
 	}
