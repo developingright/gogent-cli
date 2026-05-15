@@ -22,6 +22,8 @@ var ignored = map[string]bool{
 func scan() {
 	fmt.Println(".")
 	Directory := scanDirectory(".", 2)
+
+	//prints sub directories and files
 	for _, line := range Directory {
 		fmt.Println(line)
 	}
