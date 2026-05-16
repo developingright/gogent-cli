@@ -7,9 +7,6 @@ import (
 	"strings"
 )
 
-// list of default files/directories that the scan function will ignore
-// used hashmap for O(1) look up
-
 func scan() {
 	fmt.Println(".")
 	var ignored, parserErr = parseGitignore(".gitignore")

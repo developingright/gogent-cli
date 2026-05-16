@@ -31,7 +31,7 @@ func parseGitignore(path string) ([]string, error) {
 	lines := strings.Split(string(file), "\n")
 
 	//looping through each line and skipping it if it's blank or a comment
-	// otherwise adding it to the list
+	//otherwise adding it to the list
 	var ignoreList []string
 	for _, line := range lines {
 
