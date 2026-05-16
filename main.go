@@ -7,8 +7,7 @@ import (
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Println("usage: mini-claude <command>")
-		fmt.Println("This is a CLI Coding Agent like Claude Code built in Go")
+		fmt.Println("usage: gogent <command>")
 		return
 	}
 
