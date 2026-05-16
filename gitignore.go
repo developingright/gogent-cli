@@ -36,6 +36,7 @@ func parseGitignore(path string) ([]string, error) {
 	for _, line := range lines {
 
 		line = strings.TrimSuffix(line, "/")
+		line = strings.TrimPrefix(line, "/")
 
 		if strings.HasPrefix(line, "#") || line == "" {
 			continue

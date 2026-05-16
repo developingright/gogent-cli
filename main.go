@@ -30,6 +30,19 @@ func main() {
 			fmt.Println(content)
 			return
 		}
+	case "search":
+		if len(os.Args) < 4 {
+			fmt.Println("Insufficient arguments for search command")
+			return
+		}
+		output, err := search(os.Args[2], os.Args[3])
+
+		if err != nil {
+			fmt.Println("error occured while searching:", err)
+		} else {
+			fmt.Println(output)
+			return
+		}
 	default:
 		fmt.Println("unknown command", command)
 	}
