@@ -43,6 +43,20 @@ func main() {
 			fmt.Println(output)
 			return
 		}
+	case "run":
+		if len(os.Args) < 3 {
+			fmt.Println("Insufficient arguments for run command")
+			return
+		}
+
+		output, err := runCommand(os.Args[2])
+
+		if err != nil {
+			fmt.Println("error occured while executing command:", err)
+		} else {
+			fmt.Println(output)
+			return
+		}
 	default:
 		fmt.Println("unknown command", command)
 	}
